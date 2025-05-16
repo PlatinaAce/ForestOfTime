@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:id="@+id/calaender"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gather Around"
+            android:layout_gravity="bottom"
+            android:textSize="17dp"/>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/tree"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forest of Time"
+            android:layout_gravity="bottom"
+            android:textSize="17dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TableLayout
+        android:id="@+id/calendar_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:background="#FFFFFF">
+
+
+        <TableRow>
+            <TextView android:text="S" style="@style/CalendarDayHeader"/>
+            <TextView android:text="M" style="@style/CalendarDayHeader"/>
+            <TextView android:text="T" style="@style/CalendarDayHeader"/>
+            <TextView android:text="W" style="@style/CalendarDayHeader"/>
+            <TextView android:text="T" style="@style/CalendarDayHeader"/>
+            <TextView android:text="F" style="@style/CalendarDayHeader"/>
+            <TextView android:text="S" style="@style/CalendarDayHeader"/>
+        </TableRow>
+
+        <!-- 날짜 행들 -->
+        <TableRow>
+            <TextView android:text="" style="@style/CalendarCell"/>
+            <TextView android:text="" style="@style/CalendarCell"/>
+            <TextView android:text="" style="@style/CalendarCell"/>
+            <TextView android:text="1" style="@style/CalendarCell"/>
+            <TextView android:text="2" style="@style/CalendarCell"/>
+            <TextView android:text="3" style="@style/CalendarCell"/>
+            <TextView android:text="4" style="@style/CalendarCell"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="5" style="@style/CalendarCell"/>
+            <TextView android:text="6" style="@style/CalendarCell"/>
+            <TextView android:text="7" style="@style/CalendarCell"/>
+            <TextView android:text="8" style="@style/CalendarCell"/>
+            <TextView android:text="9" style="@style/CalendarCell"/>
+            <TextView android:text="10" style="@style/CalendarCell"/>
+            <TextView android:text="11" style="@style/CalendarCell"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="12" style="@style/CalendarCell"/>
+            <TextView android:text="13" style="@style/CalendarCell"/>
+            <TextView android:text="14" style="@style/CalendarCell"/>
+            <TextView android:text="15" style="@style/CalendarCell"/>
+            <TextView android:text="16" style="@style/CalendarCell"/>
+            <TextView android:text="17" style="@style/CalendarCell"/>
+            <TextView android:text="18" style="@style/CalendarCell"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="19" style="@style/CalendarCell"/>
+            <TextView android:text="20" style="@style/CalendarCell"/>
+            <TextView android:text="21" style="@style/CalendarCell"/>
+            <TextView android:text="22" style="@style/CalendarCell"/>
+            <TextView android:text="23" style="@style/CalendarCell"/>
+            <TextView android:text="24" style="@style/CalendarCell"/>
+            <TextView android:text="25" style="@style/CalendarCell"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="26" style="@style/CalendarCell"/>
+            <TextView android:text="27" style="@style/CalendarCell"/>
+            <TextView android:text="28" style="@style/CalendarCell"/>
+            <TextView android:text="29" style="@style/CalendarCell"/>
+            <TextView android:text="30" style="@style/CalendarCell"/>
+            <TextView android:text="31" style="@style/CalendarCell"/>
+            <TextView android:text="" style="@style/CalendarCell"/>
+        </TableRow>
+
+
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="모여봐요 시간의 숲"
+        android:textSize="17dp"
+        android:padding="20dp"
+        android:layout_gravity="center"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5" />
+
+</LinearLayout>

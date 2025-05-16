@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<style name="CalendarDayHeader">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">40dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textStyle">bold</item>
+</style>
+
+<style name="CalendarCell">
+<item name="android:layout_width">0dp</item>
+<item name="android:layout_height">50dp</item>
+<item name="android:layout_weight">1</item>
+<item name="android:gravity">center</item>
+<item name="android:background">#F8CBD3</item>
+</style>
+
+<style name="CalendarCellGreen">
+<item name="android:layout_width">0dp</item>
+<item name="android:layout_height">50dp</item>
+<item name="android:layout_weight">1</item>
+<item name="android:gravity">center</item>
+<item name="android:background">#A4DC9C</item>
+
+
+</style>
+
+</resources>
