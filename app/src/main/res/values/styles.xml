@@ -14,7 +14,7 @@
 <item name="android:layout_height">50dp</item>
 <item name="android:layout_weight">1</item>
 <item name="android:gravity">center</item>
-<item name="android:background">#F8CBD3</item>
+    <item name="android:background">#F8CBD3</item>
 </style>
 
 <style name="CalendarCellGreen">

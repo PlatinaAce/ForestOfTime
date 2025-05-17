@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 로고/타이틀 부분 (생략 가능) -->
+    <ImageView
+        android:src="@drawable/tree"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"/>
+    <TextView
+        android:text="Gather Around, Forest of Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp"/>
+
+    <!-- Event Code 입력란 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Code"/>
+    <EditText
+        android:id="@+id/et_event_code"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="6자리 코드를 입력하세요"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <!-- Join 버튼 -->
+    <Button
+        android:id="@+id/btn_join_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Join"
+        android:backgroundTint="#BACFAE"/>
+</LinearLayout>

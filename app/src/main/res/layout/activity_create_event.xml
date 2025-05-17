@@ -62,8 +62,7 @@
         android:id="@+id/calendar_table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="*"
-        android:background="#FFFFFF">
+        android:stretchColumns="*">
 
 
         <TableRow>
@@ -129,7 +128,30 @@
 
 
     </TableLayout>
-
+    <!-- 3) 이벤트 이름 입력란 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Name"
+        android:textSize="16sp"
+        android:paddingTop="16dp"/>
+    <EditText
+        android:id="@+id/et_event_name"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter event name"
+        android:inputType="textPersonName"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"/>
+    <!-- 5) 다음 버튼 -->
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:text="Next"
+        android:backgroundTint="#BACFAE"
+        android:textColor="#FFFFFF"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"

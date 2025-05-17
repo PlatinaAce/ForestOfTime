@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -13,6 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ForestOfTime"
         tools:targetApi="31">
+        <!-- 1. 로그인 화면 -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+        <!-- 2. 캘린더 생성 화면 -->
+        <activity
+            android:name=".CreateEventActivity"
+            android:exported="false" />
+
+        <!-- 3. 시작 화면 (런처) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -22,6 +33,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 4. 참가 코드 입력 화면 -->
+        <activity android:name=".JoinEventActivity"
+            android:exported="false"/>
+        <!-- 5. 참가 코드 생성 화면 -->
+        <activity android:name=".ShowLinkActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
