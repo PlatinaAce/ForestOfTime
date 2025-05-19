@@ -1,7 +1,9 @@
 package com.platinaace.forestoftime;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 public class CreateEventActivity extends AppCompatActivity {
@@ -30,30 +40,27 @@ public class CreateEventActivity extends AppCompatActivity {
         calendarTable = findViewById(R.id.calendar_table);
         btnNext       = findViewById(R.id.btn_next);
 
-        // 1) 테이블의 각 셀 날짜(TextView)에 클릭 리스너 달기
-        int rowCount = calendarTable.getChildCount();
-        for (int i = 1; i < rowCount; i++) {
+        // 1) 날짜 셀마다 리스너 달기
+        int rows = calendarTable.getChildCount();
+        for (int i = 1; i < calendarTable.getChildCount(); i++) {
             TableRow row = (TableRow) calendarTable.getChildAt(i);
-            int cellCount = row.getChildCount();
-            for (int j = 0; j < cellCount; j++) {
+            for (int j = 0; j < row.getChildCount(); j++) {
                 TextView cell = (TextView) row.getChildAt(j);
-                String dayText = cell.getText().toString().trim();
-                if (!dayText.isEmpty()) {
-                    // 날짜 셀이 비어있지 않을 때만 토글 가능
-                    cell.setOnClickListener(v -> {
-                        if (selectedDays.contains(dayText)) {
-                            selectedDays.remove(dayText);
-                            cell.setBackgroundColor(Color.TRANSPARENT);
-                        } else {
-                            selectedDays.add(dayText);
-                            cell.setBackgroundColor(0x8033AA33);  // 반투명 녹색
-                        }
-                    });
-                }
+                if (cell.getText().toString().trim().isEmpty()) continue;
+
+                cell.setOnClickListener(v -> {
+                    v.setSelected(!v.isSelected());
+                    String day = ((TextView)v).getText().toString().trim();
+                    if (v.isSelected()) {
+                        selectedDays.add(day);
+                    } else {
+                        selectedDays.remove(day);
+                    }
+                });
             }
         }
 
-        // 2) Next 버튼 클릭
+// 2) Next 버튼 클릭 시
         btnNext.setOnClickListener(v -> {
             String title = etName.getText().toString().trim();
             if (title.isEmpty()) {
@@ -65,15 +72,62 @@ public class CreateEventActivity extends AppCompatActivity {
                 return;
             }
 
-            // 3) 다음 화면으로 넘어가기 (예: 링크 생성 화면)
-            Intent intent = new Intent(this, ShowLinkActivity.class);
-            intent.putExtra("EVENT_TITLE", title);
-            intent.putStringArrayListExtra(
-                    "EVENT_DATES",
-                    new ArrayList<>(selectedDays)
+            // 3) 선택된 day 문자열들 → YYYY-MM-DD 포맷 리스트로 변환
+            List<String> isoDates = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            int year  = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH) + 1; // Calendar.MONTH는 0~11
+            for (String dayStr : selectedDays) {
+                int dayInt = Integer.parseInt(dayStr);
+                String mm = String.format(Locale.getDefault(), "%02d", month);
+                String dd = String.format(Locale.getDefault(), "%02d", dayInt);
+                isoDates.add(year + "-" + mm + "-" + dd);
+            }
+
+            // 4) 로딩 다이얼로그
+            ProgressDialog pd = new ProgressDialog(this);
+            pd.setMessage("이벤트 생성 중…");
+            pd.setCancelable(false);
+            pd.show();
+
+            // 5) Cloud Function 파라미터 준비
+            Map<String,Object> params = new HashMap<>();
+            params.put("title", title);
+            params.put("dates", isoDates);
+            // 만약 로그인 유저가 있다면 아래처럼 추가
+            // params.put("createdId", ParseUser.getCurrentUser().getObjectId());
+
+            // 6) createEvent 호출
+            ParseCloud.callFunctionInBackground(
+                    "createEvent",
+                    params,
+                    (FunctionCallback<Map<String,Object>>) (response, e) -> {
+                        pd.dismiss();
+                        if (e != null) {
+                            Toast.makeText(
+                                    CreateEventActivity.this,
+                                    "이벤트 생성 오류: " + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                            return;
+                        }
+
+                        // 7) 응답에서 event_id, link_code 추출
+                        String eventId  = (String) response.get("event_id");
+                        String linkCode = (String) response.get("link_code");
+
+                        // 8) ShowLinkActivity 로 이동
+                        Intent intent = new Intent(
+                                CreateEventActivity.this,
+                                ShowLinkActivity.class
+                        );
+                        intent.putExtra("EXTRA_EVENT_ID",  eventId);
+                        intent.putExtra("EXTRA_LINK_CODE", linkCode);
+                        intent.putExtra("EXTRA_TITLE",      title);
+                        startActivity(intent);
+                        finish();
+                    }
             );
-            startActivity(intent);
-            // finish(); // 뒤로가기 방지 시
         });
     }
 }

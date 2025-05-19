@@ -80,49 +80,148 @@
             <TextView android:text="" style="@style/CalendarCell"/>
             <TextView android:text="" style="@style/CalendarCell"/>
             <TextView android:text="" style="@style/CalendarCell"/>
-            <TextView android:text="1" style="@style/CalendarCell"/>
-            <TextView android:text="2" style="@style/CalendarCell"/>
-            <TextView android:text="3" style="@style/CalendarCell"/>
-            <TextView android:text="4" style="@style/CalendarCell"/>
+            <TextView
+                style="@style/CalendarCell"
+                android:text="1"
+                android:clickable="true"
+                android:focusable="true"/>
+            <TextView
+                style="@style/CalendarCell"
+                android:text="2"
+                android:clickable="true"
+                android:focusable="true"/>
+            <TextView
+                style="@style/CalendarCell"
+                android:text="3"
+                android:clickable="true"
+                android:focusable="true"/>
+            <TextView
+                android:text="4"
+
+                android:clickable="true"
+                android:focusable="true"
+
+                style="@style/CalendarCell"/>
         </TableRow>
 
         <TableRow>
-            <TextView android:text="5" style="@style/CalendarCell"/>
-            <TextView android:text="6" style="@style/CalendarCell"/>
-            <TextView android:text="7" style="@style/CalendarCell"/>
-            <TextView android:text="8" style="@style/CalendarCell"/>
-            <TextView android:text="9" style="@style/CalendarCell"/>
-            <TextView android:text="10" style="@style/CalendarCell"/>
-            <TextView android:text="11" style="@style/CalendarCell"/>
+            <TextView android:text="5"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="6"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="7"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="8"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="9"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="10"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="11"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
         </TableRow>
 
         <TableRow>
-            <TextView android:text="12" style="@style/CalendarCell"/>
-            <TextView android:text="13" style="@style/CalendarCell"/>
-            <TextView android:text="14" style="@style/CalendarCell"/>
-            <TextView android:text="15" style="@style/CalendarCell"/>
-            <TextView android:text="16" style="@style/CalendarCell"/>
-            <TextView android:text="17" style="@style/CalendarCell"/>
-            <TextView android:text="18" style="@style/CalendarCell"/>
+            <TextView android:text="12"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="13"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="14"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="15"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="16"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="17"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="18"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
         </TableRow>
 
         <TableRow>
-            <TextView android:text="19" style="@style/CalendarCell"/>
-            <TextView android:text="20" style="@style/CalendarCell"/>
-            <TextView android:text="21" style="@style/CalendarCell"/>
-            <TextView android:text="22" style="@style/CalendarCell"/>
-            <TextView android:text="23" style="@style/CalendarCell"/>
-            <TextView android:text="24" style="@style/CalendarCell"/>
-            <TextView android:text="25" style="@style/CalendarCell"/>
+            <TextView android:text="19"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="20"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="21"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="22"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="23"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="24"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="25"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
         </TableRow>
 
         <TableRow>
-            <TextView android:text="26" style="@style/CalendarCell"/>
-            <TextView android:text="27" style="@style/CalendarCell"/>
-            <TextView android:text="28" style="@style/CalendarCell"/>
-            <TextView android:text="29" style="@style/CalendarCell"/>
-            <TextView android:text="30" style="@style/CalendarCell"/>
-            <TextView android:text="31" style="@style/CalendarCell"/>
+            <TextView android:text="26"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="27"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="28"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="29"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="30"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
+            <TextView android:text="31"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/CalendarCell"/>
             <TextView android:text="" style="@style/CalendarCell"/>
         </TableRow>
 
