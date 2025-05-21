@@ -2,8 +2,6 @@ package com.platinaace.forestoftime;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,27 +39,23 @@ public class CreateEventActivity extends AppCompatActivity {
         calendarTable = findViewById(R.id.calendar_table);
         btnNext       = findViewById(R.id.btn_next);
 
-        // 1) 날짜 셀마다 리스너 달기
-        int rows = calendarTable.getChildCount();
+        // 1) 달력 날짜 클릭 리스너
         for (int i = 1; i < calendarTable.getChildCount(); i++) {
             TableRow row = (TableRow) calendarTable.getChildAt(i);
             for (int j = 0; j < row.getChildCount(); j++) {
                 TextView cell = (TextView) row.getChildAt(j);
-                if (cell.getText().toString().trim().isEmpty()) continue;
+                String dayText = cell.getText().toString().trim();
+                if (dayText.isEmpty()) continue;
 
                 cell.setOnClickListener(v -> {
                     v.setSelected(!v.isSelected());
-                    String day = ((TextView)v).getText().toString().trim();
-                    if (v.isSelected()) {
-                        selectedDays.add(day);
-                    } else {
-                        selectedDays.remove(day);
-                    }
+                    if (v.isSelected()) selectedDays.add(dayText);
+                    else               selectedDays.remove(dayText);
                 });
             }
         }
 
-// 2) Next 버튼 클릭 시
+        // 2) Next 버튼
         btnNext.setOnClickListener(v -> {
             String title = etName.getText().toString().trim();
             if (title.isEmpty()) {
@@ -72,60 +67,77 @@ public class CreateEventActivity extends AppCompatActivity {
                 return;
             }
 
-            // 3) 선택된 day 문자열들 → YYYY-MM-DD 포맷 리스트로 변환
-            List<String> isoDates = new ArrayList<>();
+            // 3) "YYYY-MM-DD" 포맷 리스트로 변환
+            ArrayList<String> isoDates = new ArrayList<>();
             Calendar cal = Calendar.getInstance();
             int year  = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH) + 1; // Calendar.MONTH는 0~11
-            for (String dayStr : selectedDays) {
-                int dayInt = Integer.parseInt(dayStr);
+            int month = cal.get(Calendar.MONTH) + 1;
+            for (String ds : selectedDays) {
+                int d = Integer.parseInt(ds);
                 String mm = String.format(Locale.getDefault(), "%02d", month);
-                String dd = String.format(Locale.getDefault(), "%02d", dayInt);
+                String dd = String.format(Locale.getDefault(), "%02d", d);
                 isoDates.add(year + "-" + mm + "-" + dd);
             }
 
-            // 4) 로딩 다이얼로그
+            // 4) 로딩
             ProgressDialog pd = new ProgressDialog(this);
             pd.setMessage("이벤트 생성 중…");
             pd.setCancelable(false);
             pd.show();
 
-            // 5) Cloud Function 파라미터 준비
-            Map<String,Object> params = new HashMap<>();
+            // 5) 파라미터 준비 (createEvent: title:String, dates:List<String>) :contentReference[oaicite:0]{index=0}
+            HashMap<String, Object> params = new HashMap<>();
             params.put("title", title);
             params.put("dates", isoDates);
-            // 만약 로그인 유저가 있다면 아래처럼 추가
-            // params.put("createdId", ParseUser.getCurrentUser().getObjectId());
 
-            // 6) createEvent 호출
+            // 6) Cloud Function 호출
             ParseCloud.callFunctionInBackground(
                     "createEvent",
                     params,
-                    (FunctionCallback<Map<String,Object>>) (response, e) -> {
-                        pd.dismiss();
-                        if (e != null) {
-                            Toast.makeText(
+                    new FunctionCallback<Map<String, Object>>() {
+                        @Override
+                        public void done(Map<String, Object> response, ParseException e) {
+                            pd.dismiss();
+
+                            // 네트워크/서버 오류
+                            if (e != null) {
+                                Toast.makeText(
+                                        CreateEventActivity.this,
+                                        "이벤트 생성 오류: " + e.getMessage(),
+                                        Toast.LENGTH_LONG
+                                ).show();
+                                return;
+                            }
+
+                            // success 필드 안전하게 꺼내기
+                            Object ok = response.get("success");
+                            boolean isSuccess = ok instanceof Boolean
+                                    ? (Boolean) ok
+                                    : Boolean.parseBoolean(String.valueOf(ok));
+                            if (!isSuccess) {
+                                Toast.makeText(
+                                        CreateEventActivity.this,
+                                        "이벤트 생성에 실패했습니다",
+                                        Toast.LENGTH_LONG
+                                ).show();
+                                return;
+                            }
+
+                            // event_id, link_code를 문자열로 안전하게 변환
+                            String eventId  = String.valueOf(response.get("event_id"));
+                            String linkCode = String.valueOf(response.get("link_code"));
+
+                            // 7) 다음 화면으로
+                            Intent intent = new Intent(
                                     CreateEventActivity.this,
-                                    "이벤트 생성 오류: " + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-                            return;
+                                    ShowLinkActivity.class
+                            );
+                            intent.putExtra("EXTRA_EVENT_ID",  eventId);
+                            intent.putExtra("EXTRA_LINK_CODE", linkCode);
+                            intent.putExtra("EXTRA_TITLE",      title);
+                            startActivity(intent);
+                            finish();
                         }
-
-                        // 7) 응답에서 event_id, link_code 추출
-                        String eventId  = (String) response.get("event_id");
-                        String linkCode = (String) response.get("link_code");
-
-                        // 8) ShowLinkActivity 로 이동
-                        Intent intent = new Intent(
-                                CreateEventActivity.this,
-                                ShowLinkActivity.class
-                        );
-                        intent.putExtra("EXTRA_EVENT_ID",  eventId);
-                        intent.putExtra("EXTRA_LINK_CODE", linkCode);
-                        intent.putExtra("EXTRA_TITLE",      title);
-                        startActivity(intent);
-                        finish();
                     }
             );
         });
