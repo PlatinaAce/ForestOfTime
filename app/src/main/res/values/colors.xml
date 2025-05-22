@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="calendar_cell_unselected">#F8CBD3</color>
+    <color name="calendar_cell_selected">#A4DC9C</color>
 </resources>

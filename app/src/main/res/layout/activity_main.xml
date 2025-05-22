@@ -36,12 +36,23 @@
         android:padding="10dp"
         android:layout_margin="10dp"
         android:layout_gravity="center"
-        android:text="start"
+        android:text="Create a new event"
         android:textStyle="bold"
         android:backgroundTint="#BACFAE"
 
         android:id="@+id/start_Button"
         />
+    <!-- 추가된 join 버튼 -->
+    <Button
+        android:id="@+id/join_Button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:text="Join an existing event"
+        android:textStyle="bold"
+        android:backgroundTint="#BACFAE" />
 
     <View
         android:layout_width="match_parent"

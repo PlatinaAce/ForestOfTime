@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 로고/타이틀 부분 (생략 가능) -->
+    <ImageView
+        android:src="@drawable/tree"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"/>
+    <TextView
+        android:text="Gather Around, Forest of Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp"/>
+
+    <!-- 메시지 -->
+    <TextView
+        android:id="@+id/tv_event_created"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Created!"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingTop="24dp"/>
+
+    <!-- 코드 라벨 + 값 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Event Code:"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:paddingTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_link_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ABC123"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#33AA33"
+        android:layout_gravity="center"
+        android:paddingTop="8dp"/>
+
+    <!-- “Next” 버튼 -->
+    <Button
+        android:id="@+id/btn_link_next"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:text="Next"
+        android:textSize="18sp"
+        android:backgroundTint="#33AA33"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>

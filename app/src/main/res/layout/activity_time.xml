@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/time"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gather Around"
+            android:layout_gravity="bottom"
+            android:textSize="17dp"/>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/tree"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forest of Time"
+            android:layout_gravity="bottom"
+            android:textSize="17dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
+
+    <TableLayout
+        android:id="@+id/time_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1,2"
+        android:padding="8dp">
+
+        <!-- 헤더 행 -->
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="Time" />
+            <TextView style="@style/CalendarDayHeader" android:text="You" />
+            <TextView style="@style/CalendarDayHeader" android:text="Group" />
+        </TableRow>
+
+        <!-- 시간별 반복 행 -->
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="9:00 AM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_9" />
+            <View style="@style/CalendarCell" android:id="@+id/group_9" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="10:00 AM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_10" />
+            <View style="@style/CalendarCell" android:id="@+id/group_10" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="11:00 AM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_11" />
+            <View style="@style/CalendarCell" android:id="@+id/group_11" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="12:00 PM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_12" />
+            <View style="@style/CalendarCell" android:id="@+id/group_12" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="1:00 PM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_13" />
+            <View style="@style/CalendarCell" android:id="@+id/group_13" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="2:00 PM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_14" />
+            <View style="@style/CalendarCell" android:id="@+id/group_14" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="3:00 PM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_15" />
+            <View style="@style/CalendarCell" android:id="@+id/group_15" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="4:00 PM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_16" />
+            <View style="@style/CalendarCell" android:id="@+id/group_16" />
+        </TableRow>
+        <TableRow>
+            <TextView style="@style/CalendarDayHeader" android:text="5:00 PM" />
+            <View style="@style/CalendarCell" android:id="@+id/personal_17" />
+            <View style="@style/CalendarCell" android:id="@+id/group_17" />
+        </TableRow>
+
+    </TableLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="모여봐요 시간의 숲"
+        android:textSize="17dp"
+        android:padding="20dp"
+        android:layout_gravity="center" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5" />
+
+</LinearLayout>
