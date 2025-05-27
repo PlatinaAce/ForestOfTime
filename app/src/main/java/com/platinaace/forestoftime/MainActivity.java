@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        // MainActivity.java onCreate() 안에
+        // 버튼 클릭시 JoinEventActivity로 이동.
         Button joinBtn = findViewById(R.id.join_Button);
         joinBtn.setOnClickListener(v -> {
             startActivity(new Intent(this, JoinEventActivity.class));

@@ -1,31 +1,50 @@
+// ShowLinkActivity.java
 package com.platinaace.forestoftime;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ShowLinkActivity extends AppCompatActivity {
+    /** CreateEventActivity 에서 넘겨주는 링크 코드 키 */
+    public static final String EXTRA_LINK_CODE = "EXTRA_LINK_CODE";
+    /** (선택) event_id 가 필요하면 추가할 키 */
+    public static final String EXTRA_EVENT_ID  = "EXTRA_EVENT_ID";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_link);
 
         // 1) Intent 로부터 link_code 받아오기
-        String linkCode = getIntent().getStringExtra("LINK_CODE");
-        if (linkCode == null) linkCode = "------";
+        String linkCode = getIntent().getStringExtra(EXTRA_LINK_CODE);
+        if (linkCode == null || linkCode.isEmpty()) {
+            // 안전하게 기본값 세팅
+            linkCode = "------";
+        }
 
         // 2) TextView 에 반영
         TextView tvCode = findViewById(R.id.tv_link_code);
         tvCode.setText(linkCode);
 
-        // 3) Next 버튼 클릭 처리 (여기선 CalendarActivity 로 이동 예시)
+        // 3) Next → TimeActivity 로 이동
         Button btnNext = findViewById(R.id.btn_link_next);
         btnNext.setOnClickListener(v -> {
-           // Intent intent = new Intent(this, CalendarActivity.class);
-            // 만들어진 캘린더 페이지로 이동, 추후에 구현 예정
-          //  startActivity(intent);
+            Intent intent = new Intent(this, TimeActivity.class);
+
+            // (선택) eventId 가 있다면 넘겨주기
+            String eventId = getIntent().getStringExtra(EXTRA_EVENT_ID);
+            if (eventId != null) {
+                intent.putExtra(EXTRA_EVENT_ID, eventId);
+            }
+
+            // linkCode 도 같이 넘기고 싶으면
+            //intent.putExtra(EXTRA_LINK_CODE, linkCode);
+
+            startActivity(intent);
             finish();
         });
     }

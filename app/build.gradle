@@ -37,6 +37,6 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-
+    // Parse Android SDK
     implementation "com.github.parse-community.Parse-SDK-Android:parse:4.3.0"
 }
