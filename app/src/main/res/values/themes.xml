@@ -6,4 +6,18 @@
     </style>
 
     <style name="Theme.ForestOfTime" parent="Base.Theme.ForestOfTime" />
+
+    <style name="TimeCell">
+        <item name="android:background">@drawable/calendar_cell_bg</item>
+
+        <!-- 보기 편한 크기·패딩 -->
+        <item name="android:paddingLeft">60dp</item>
+        <item name="android:paddingRight">60dp</item>
+        <item name="android:paddingTop">80dp</item>
+        <item name="android:paddingBottom">80dp</item>
+        <item name="android:minWidth">200dp</item>
+
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>
