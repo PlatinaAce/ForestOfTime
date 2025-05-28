@@ -2,8 +2,10 @@ package com.platinaace.forestoftime;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,34 +19,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-/**
- * When-to-meet-style 시간표 화면
- * ─────────────────────────────
- * • 날짜(열)   : CreateEventActivity 에서 넘어온 selectedDates
- * • 시간(행)   : 09:00 - 16:00  (포함)  → 총 8칸
- * • 셀 스타일 : styles.xml 의  TimeCell  (background = selector)
- * • 드래그/클릭 시   v.setSelected(true/false)  로 색상 토글
- */
 public class TimeActivity extends AppCompatActivity {
 
-    /* 날짜 리스트 (yyyy-MM-dd) */
     private ArrayList<String> selectedDates;
 
-    /* 시간 범위 */
-    private static final int START_HOUR = 9;   // 09:00 AM
-    private static final int END_HOUR   = 17;  // 05:00 PM  → 마지막 행 = 16:00-17:00
-    private static final int ROW_COUNT  = END_HOUR - START_HOUR; // 8
+    private static final int START_HOUR = 9;
+    private static final int END_HOUR = 17;
+    private static final int ROW_COUNT = END_HOUR - START_HOUR;
 
-    /* 드래그 선택용 플래그 */
-    private boolean isDragging  = false;
-    private boolean toggleState = true;   // true → 선택 / false → 해제
+    private boolean isDragging = false;
+    private boolean toggleState = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time);
 
-        /* ───── 1. 날짜 리스트 받기 ───── */
         selectedDates = getIntent().getStringArrayListExtra("selectedDates");
         if (selectedDates == null || selectedDates.isEmpty()) {
             Toast.makeText(this, "선택된 날짜가 없습니다", Toast.LENGTH_LONG).show();
@@ -53,49 +43,50 @@ public class TimeActivity extends AppCompatActivity {
         }
         Log.d("TimeActivity", "selectedDates = " + selectedDates);
 
-        /* ───── 2. 레이아웃 뷰 찾기 ───── */
         LinearLayout dateHeader = findViewById(R.id.date_header_container);
         LinearLayout timeLabels = findViewById(R.id.time_label_container);
-        GridLayout   timeGrid   = findViewById(R.id.time_grid);
+        GridLayout timeGrid = findViewById(R.id.time_grid);
 
-        /* ───── 3. 헤더(요일+날짜) 채우기 ───── */
+        // 1. 날짜 헤더
         for (String iso : selectedDates) {
             TextView h = new TextView(this);
-            h.setText(dayName(iso) + "\n" + iso.substring(5));  // Mon\n06-03
+            h.setText(dayName(iso) + "\n" + iso.substring(5));
             h.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            h.setTextSize(16);
-            h.setPadding(32, 24, 32, 24);
+            h.setTextSize(14);
+            h.setPadding(dpToPx(8), dpToPx(12), dpToPx(8), dpToPx(12));
             dateHeader.addView(h);
         }
 
-        /* ───── 4. 좌측 시간 라벨 채우기 ───── */
+        // 2. 시간 라벨
         for (int hour = START_HOUR; hour < END_HOUR; hour++) {
             TextView l = new TextView(this);
-            l.setText(hourLabel(hour));              // “9:00 AM”
-            l.setTextSize(16);
-            l.setPadding(24, 60, 24, 60);
+            l.setText(hourLabel(hour));
+            l.setTextSize(11);
+            l.setGravity(Gravity.CENTER);
+            l.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    dpToPx(40) // ✅ 고정 높이
+            ));
             timeLabels.addView(l);
         }
 
-        /* ───── 5. GridLayout 크기 설정 ───── */
+        // 3. 셀 그리드
         int colCount = selectedDates.size();
         timeGrid.setColumnCount(colCount);
         timeGrid.setRowCount(ROW_COUNT);
 
-        /* ───── 6. 셀 생성 & 터치핸들러 ───── */
-        ContextThemeWrapper cellCtx =
-                new ContextThemeWrapper(this, R.style.TimeCell); // styles.xml
+        ContextThemeWrapper cellCtx = new ContextThemeWrapper(this, R.style.TimeCell);
 
         for (int row = 0; row < ROW_COUNT; row++) {
             for (int col = 0; col < colCount; col++) {
-                TextView cell = new TextView(cellCtx);   // TimeCell 스타일 적용
-                cell.setSelected(false);                 // 기본 미선택
+                TextView cell = new TextView(cellCtx);
+                cell.setSelected(false);
 
                 cell.setOnTouchListener((v, e) -> {
                     switch (e.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            isDragging  = true;
-                            toggleState = !v.isSelected(); // 현재 상태 반전
+                            isDragging = true;
+                            toggleState = !v.isSelected();
                             v.setSelected(toggleState);
                             return true;
                         case MotionEvent.ACTION_MOVE:
@@ -108,10 +99,11 @@ public class TimeActivity extends AppCompatActivity {
                     return false;
                 });
 
-                /* 위치 지정 */
-                GridLayout.LayoutParams lp =
-                        new GridLayout.LayoutParams(
-                                GridLayout.spec(row), GridLayout.spec(col));
+                GridLayout.LayoutParams lp = new GridLayout.LayoutParams(
+                        GridLayout.spec(row), GridLayout.spec(col));
+                lp.width = dpToPx(40);   // ✅ 고정 너비
+                lp.height = dpToPx(40);  // ✅ 고정 높이
+                lp.setMargins(dpToPx(1), dpToPx(1), dpToPx(1), dpToPx(1));
                 cell.setLayoutParams(lp);
 
                 timeGrid.addView(cell);
@@ -119,16 +111,14 @@ public class TimeActivity extends AppCompatActivity {
         }
     }
 
-    /* ─────────────── Formatter ─────────────── */
-
-    /** “9:00 AM” 형식 */
+    // 시간 라벨 포맷
     private String hourLabel(int hour24) {
         String ampm = (hour24 < 12) ? "AM" : "PM";
         int h12 = (hour24 == 0 || hour24 == 12) ? 12 : hour24 % 12;
         return String.format(Locale.US, "%d:00 %s", h12, ampm);
     }
 
-    /** “Mon”“Tue”… 요일 */
+    // 요일 포맷
     private String dayName(String iso) {
         try {
             Calendar cal = Calendar.getInstance();
@@ -137,5 +127,11 @@ public class TimeActivity extends AppCompatActivity {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    // dp 단위를 px로 변환
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
     }
 }
