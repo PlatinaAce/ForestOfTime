@@ -40,7 +40,7 @@
         <activity android:name=".ShowLinkActivity"
             android:exported="false" />
         <!-- 6. 타임 테이블 화면 -->
-        <activity android:name=".TimeActivity"/>
+        <activity android:name=".ShowTimeActivity"/>
     </application>
 
 </manifest>

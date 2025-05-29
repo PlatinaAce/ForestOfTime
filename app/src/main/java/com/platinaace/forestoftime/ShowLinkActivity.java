@@ -30,19 +30,10 @@ public class ShowLinkActivity extends AppCompatActivity {
         TextView tvCode = findViewById(R.id.tv_link_code);
         tvCode.setText(linkCode);
 
-        // 3) Next → TimeActivity 로 이동
+        // 3) Next → mainmenu 로 이동
         Button btnNext = findViewById(R.id.btn_link_next);
         btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(this, TimeActivity.class);
-
-            // (선택) eventId 가 있다면 넘겨주기
-            String eventId = getIntent().getStringExtra(EXTRA_EVENT_ID);
-            if (eventId != null) {
-                intent.putExtra(EXTRA_EVENT_ID, eventId);
-            }
-
-            // linkCode 도 같이 넘기고 싶으면
-            //intent.putExtra(EXTRA_LINK_CODE, linkCode);
+            Intent intent = new Intent(this, MainActivity.class);
 
             startActivity(intent);
             finish();

@@ -18,4 +18,26 @@
         <item name="android:background">@drawable/calendar_cell_bg</item>
     </style>
 
+    <style name="CalendarHeader">
+        <!-- 기존 100dp → 80dp 로 줄임 -->
+        <item name="android:layout_width">50dp</item>
+        <!-- 높이도 좀 줄여서 셀 높이에 더 어울리게 -->
+        <item name="android:layout_height">wrap_content</item>
+        <!-- 텍스트 크기도 10sp 정도로 조정 -->
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">center</item>
+        <!-- 패딩도 반으로 줄이면 더 아담해집니다 -->
+        <item name="android:padding">2dp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+
+    <style name="CalendarTimeCell">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:paddingStart">4dp</item>
+    </style>
 </resources>

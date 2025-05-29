@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <!-- 1) 제목 -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Your Availability"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000"/>
+
+    <!-- 2) 서브텍스트 -->
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tap slots to toggle your availability"
+        android:textSize="12sp"
+        android:textColor="#555"
+        android:layout_marginTop="4dp"/>
+
+    <!-- 3) 스크롤 가능한 캘린더 -->
+    <HorizontalScrollView
+        android:id="@+id/calendar_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="12dp"
+        android:scrollbars="none">
+
+        <TableLayout
+            android:id="@+id/calendar_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"/>
+
+    </HorizontalScrollView>
+
+    <!-- 4) Save 버튼 -->
+    <Button
+        android:id="@+id/btn_saved"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#A3C293"
+        android:textColor="#FFF"/>
+
+</LinearLayout>

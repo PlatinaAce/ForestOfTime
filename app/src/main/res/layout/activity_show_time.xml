@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <!-- 1) 제목 -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group's Availability"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000"/>
+
+    <!-- 2) 가용 인원 표시 바 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_left_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/0 Available"
+            android:textSize="14sp"
+            android:textColor="#000"/>
+
+        <!-- progress bar 대신 커스텀 뷰 -->
+        <View
+            android:id="@+id/availability_bar"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_weight="1"
+            android:background="#888"/>
+
+        <TextView
+            android:id="@+id/tv_right_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/0 Available"
+            android:textSize="14sp"
+            android:textColor="#000"/>
+    </LinearLayout>
+
+    <!-- 3) 서브텍스트 -->
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mouseover the Calendar to See Who Is Available"
+        android:textSize="12sp"
+        android:textColor="#555"
+        android:layout_marginTop="4dp"/>
+
+    <!-- 4) 날짜별 시간표 -->
+
+    <!-- 5) 하단 Sign In 버튼 -->
+    <HorizontalScrollView
+        android:id="@+id/calendar_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="12dp"
+        android:scrollbars="none">
+
+        <TableLayout
+            android:id="@+id/calendar_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*">
+
+            <!-- 헤더: 빈 셀 + 날짜/요일 -->
+            <TableRow>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="" />
+                <!-- 예시로 5일치 하드코딩 -->
+                <TextView
+                    style="@style/CalendarHeader"
+                    android:text="May 26\nMon" />
+
+                <TextView
+                    style="@style/CalendarHeader"
+                    android:text="May 27\nTue" />
+
+                <TextView
+                    style="@style/CalendarHeader"
+                    android:text="May 28\nWed" />
+
+                <TextView
+                    style="@style/CalendarHeader"
+                    android:text="May 29\nThu" />
+
+                <TextView
+                    style="@style/CalendarHeader"
+                    android:text="May 30\nFri" />
+            </TableRow>
+
+            <!-- 시간대별 행 (9:00–17:00) -->
+            <!-- 아래 9:00 AM 행 예시, 나머지 시간대도 복사 붙여넣기 -->
+            <!--            <TableRow>-->
+            <!--                <TextView-->
+            <!--                    style="@style/CalendarTimeCell"-->
+            <!--                    android:text="9:00 AM"/>-->
+            <!--                <View style="@style/CalendarCell"/>-->
+            <!--                <View style="@style/CalendarCell"/>-->
+            <!--                <View style="@style/CalendarCell"/>-->
+            <!--                <View style="@style/CalendarCell"/>-->
+            <!--                <View style="@style/CalendarCell"/>-->
+            <!--            </TableRow>-->
+
+            <!-- 10행, 11행 … 17행까지 동일 -->
+
+        </TableLayout>
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/btn_signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:textAllCaps="false"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#A3C293"
+        android:textColor="#FFF"/>
+
+</LinearLayout>
