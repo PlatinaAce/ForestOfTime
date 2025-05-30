@@ -51,7 +51,7 @@ public class EditTimeActivity extends AppCompatActivity {
         btnSave       = findViewById(R.id.btn_saved);
 
         // 1) Intent 에서 eventId, participantId 받기
-        eventId       = getIntent().getStringExtra("event_id");
+        eventId       = getIntent().getStringExtra("event_objectId");
         participantId = getIntent().getStringExtra("participant_id");
         if (eventId == null || participantId == null) {
             Toast.makeText(this, "이벤트 정보가 없습니다.", Toast.LENGTH_SHORT).show();

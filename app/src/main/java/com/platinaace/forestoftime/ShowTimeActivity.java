@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +27,14 @@ import java.util.Map;
 
 public class ShowTimeActivity extends AppCompatActivity {
     private static final String TAG = "ShowTimeActivity";
-
+    private TextView tvLeft, tvRight;
+    private View     availabilityBar;
     private TableLayout calendarTable;
     private Button      btnSignIn;
     private String      linkCode;
+
     // ★ 이벤트 ObjectId를 저장할 필드
-    private String      eventId;
+    private String      eventObjId,eventNumId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +42,10 @@ public class ShowTimeActivity extends AppCompatActivity {
 
         calendarTable = findViewById(R.id.calendar_table);
         btnSignIn     = findViewById(R.id.btn_signin);
-
+        // … 기존 바인딩 …
+        tvLeft  = findViewById(R.id.tv_left_count);
+        tvRight = findViewById(R.id.tv_right_count);
+        availabilityBar = findViewById(R.id.availability_bar);
         // 1) Intent 로 받은 이벤트 코드
         linkCode = getIntent().getStringExtra("event_code");
         if (linkCode == null) {
@@ -60,11 +67,14 @@ public class ShowTimeActivity extends AppCompatActivity {
                     }
 
                     // ① 성공: objectId(ObjectId 문자열) 꺼내기
-                    eventId = (String) resp1.get("event_id");
-
+                    //eventId = (String) resp1.get("event_id");
+                    // 🔹ObjectId
+                    eventObjId   = (String) resp1.get("event_objectId");
+                    // 🔹숫자형 ID → String 으로 저장
+                    eventNumId   = String.valueOf(resp1.get("event_id"));
                     // ② getEventResults 에 objectId 를 event_id 로 넘겨서 진짜 slots 정보까지 가져오기
                     Map<String,Object> p2 = new HashMap<>();
-                    p2.put("event_id", eventId);
+                    p2.put("event_id", eventObjId);
                     ParseCloud.callFunctionInBackground("getEventResults", p2,
                             (FunctionCallback<Map<String,Object>>) (resp2, e2) -> {
                                 if (e2 != null) {
@@ -85,17 +95,71 @@ public class ShowTimeActivity extends AppCompatActivity {
         );
 
         btnSignIn.setOnClickListener(v -> {
-                       // LoginActivity 로 화면 전환
-                              Intent intent = new Intent(ShowTimeActivity.this, LoginActivity.class);
-                       // 필요하다면 event_code 도 넘겨줄 수 있습니다
-                               intent.putExtra("event_code", linkCode);
-                                intent.putExtra("event_id", eventId);
-                       startActivity(intent);
-
-            // TODO: 로그인/회원가입 화면으로 이동
+            Intent intent = new Intent(ShowTimeActivity.this, LoginActivity.class);
+            // ① 이벤트 코드 (Link Code)
+            intent.putExtra("event_code",    linkCode);
+            intent.putExtra("event_objectId", eventObjId);    // ★ Parse ObjectId
+            startActivity(intent);
         });
+        // 최초 한 번 불러오기
+        fetchAndBuild();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 에디트 화면에서 돌아왔을 때 재조회
+        fetchAndBuild();
     }
 
+    private void fetchAndBuild() {
+        // ① getEventByCode
+        ParseCloud.callFunctionInBackground("getEventByCode",
+                Collections.singletonMap("link_code", linkCode),
+                (FunctionCallback<Map<String, Object>>) (resp1, e1) -> {
+                    if (e1 != null) return;
+                    eventObjId = (String) resp1.get("event_objectId");
+
+                    // ② getEventResults
+                    ParseCloud.callFunctionInBackground("getEventResults",
+                            Collections.singletonMap("event_id", eventObjId),
+                            (FunctionCallback<Map<String, Object>>) (resp2, e2) -> {
+                                if (e2 != null) return;
+
+                                @SuppressWarnings("unchecked")
+                                List<Map<String, Object>> dates =
+                                        (List<Map<String, Object>>) resp2.get("dates");
+
+                                buildCalendarWithAvailability(dates);
+                                updateAvailabilityBar(dates);
+                            });
+                }
+        );
+    }
+
+    private void updateAvailabilityBar(List<Map<String,Object>> dates) {
+        if (dates.isEmpty()) return;
+        @SuppressWarnings("unchecked")
+        List<Map<String,Object>> slots =
+                (List<Map<String,Object>>) dates.get(0).get("slots");
+        if (slots.isEmpty()) return;
+
+        // 첫 슬롯에서 전체 참가자 수와 가능한 인원 수 가져오기
+        int total     = ((Number) slots.get(0).get("total_participants")).intValue();
+        int available = ((Number) slots.get(0).get("available_count")).intValue();
+        String text   = available + "/" + total + " Available";
+
+        tvLeft .setText(text);
+        tvRight.setText(text);
+
+        // 막대 너비 업데이트 (뷰가 레이아웃된 후에)
+        availabilityBar.post(() -> {
+            int fullW = availabilityBar.getWidth();
+            int barW  = total > 0 ? (int) (fullW * (available / (float) total)) : 0;
+            ViewGroup.LayoutParams lp = availabilityBar.getLayoutParams();
+            lp.width = barW;
+            availabilityBar.setLayoutParams(lp);
+        });
+    }
     /** 캘린더를 동적으로 생성하며 availability_percentage 에 따라 셀 색 채우기 */
     private void buildCalendarWithAvailability(List<Map<String,Object>> dates) {
         calendarTable.removeAllViews();
@@ -144,9 +208,15 @@ public class ShowTimeActivity extends AppCompatActivity {
                 lp.setMargins(1,1,1,1);
                 cell.setLayoutParams(lp);
 
-                int alpha = 50 + percent*2;
-                int color = Color.argb(alpha, 163,194,147);
-                cell.setBackgroundColor(color);
+                if (percent > 0) {
+                    // 실제로 사람이 하나라도 있으면 진한 초록
+                    int alpha = 50 + percent * 2;   // e.g. 50 + 100*2 = 250
+                    int color = Color.argb(alpha, 163, 194, 147);
+                    cell.setBackgroundColor(color);
+                } else {
+                    // 아예 선택 안 된 칸은 기본 회색
+                    cell.setBackgroundColor(0xFFEFEFEF);
+                }
 
                 row.addView(cell);
             }
